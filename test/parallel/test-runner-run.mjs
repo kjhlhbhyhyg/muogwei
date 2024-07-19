@@ -500,8 +500,8 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
             code: 'ERR_INVALID_ARG_TYPE'
           }));
       });
-  
-      it('should only allow options.coverageExcludeGlobs and options.coverageIncludeGlobs when coverage is true', async () => {
+
+      it('should only allow coverageExcludeGlobs and coverageIncludeGlobs when coverage is true', async () => {
         assert.throws(
           () => run({ coverage: false, coverageIncludeGlobs: [] }),
           { code: 'ERR_INVALID_ARG_VALUE' },
@@ -511,7 +511,7 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
           { code: 'ERR_INVALID_ARG_VALUE' },
         );
       });
-  
+
       it('should only allow string|string[] in options.coverageExcludeGlobs', async () => {
         [Symbol(), {}, () => {}, 0, 1, 0n, 1n, Promise.resolve([]), true, false]
           .forEach((coverageExcludeGlobs) => {
@@ -522,8 +522,8 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
               code: 'ERR_INVALID_ARG_TYPE'
             });
           });
-          assert.doesNotThrow(() => run({ files: [], coverage: true, coverageExcludeGlobs: [''] }));
-          assert.doesNotThrow(() => run({ files: [], coverage: true, coverageExcludeGlobs: '' }));
+        run({ files: [], signal: AbortSignal.abort(), coverage: true, coverageExcludeGlobs: [''] });
+        run({ files: [], signal: AbortSignal.abort(), coverage: true, coverageExcludeGlobs: '' });
       });
 
       it('should only allow string|string[] in options.coverageIncludeGlobs', async () => {
@@ -535,9 +535,10 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
             assert.throws(() => run({ coverage: true, coverageIncludeGlobs: [coverageIncludeGlobs] }), {
               code: 'ERR_INVALID_ARG_TYPE'
             });
-        });
-        assert.doesNotThrow(() => run({ files: [], coverage: true, coverageIncludeGlobs: [''] }));
-        assert.doesNotThrow(() => run({ files: [], coverage: true, coverageIncludeGlobs: '' }));
+          });
+
+        run({ files: [], signal: AbortSignal.abort(), coverage: true, coverageIncludeGlobs: [''] });
+        run({ files: [], signal: AbortSignal.abort(), coverage: true, coverageIncludeGlobs: '' });
       });
     });
 
